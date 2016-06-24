@@ -2,7 +2,7 @@
 'use strict';
 
 var request = require('request');
-var jsonPath = require('JSONPath');
+var jsonPath = require('jsonpath-plus');
 var select = require('xpath.js');
 var dom = require('xmldom').DOMParser;
 var fs = require('fs');
@@ -414,7 +414,7 @@ var evaluatePath = function(path, content) {
     switch (contentType) {
         case 'json':
             var contentJson = JSON.parse(content);
-            var evalResult = jsonPath({ resultType: 'all' }, path, contentJson);
+            var evalResult = jsonPath({path: path, json: contentJson});
             return (evalResult.length > 0) ? evalResult[0].value : undefined;
         case 'xml':
             var xmlDocument = new dom().parseFromString(content);
